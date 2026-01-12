@@ -35,8 +35,7 @@
 
             <!-- DOB -->
             <div class="p-field p-col-12 p-md-6">
-                <p-calendar formControlName="dob" [showIcon]="true"></p-calendar>
-
+                <p-calendar [defaultDate]="new Date()" formControlName="dob" [showIcon]="true"></p-calendar>
                 @if (studentForm.get('dob')?.touched &&
                 studentForm.get('dob')?.invalid) {
                 <small class="p-error">
