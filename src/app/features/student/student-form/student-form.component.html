@@ -1,0 +1,82 @@
+<p-card header="Student Registration Form">
+
+    <form [formGroup]="studentForm" (ngSubmit)="submit()">
+
+        <div class="p-fluid p-formgrid p-grid">
+
+            <!-- First Name -->
+            <div class="p-field p-col-12 p-md-4">
+                <input pInputText type="text" placeholder="First Name" formControlName="firstName" />
+
+                <small class="p-error" *ngIf="studentForm.get('firstName')?.touched &&
+                 studentForm.get('firstName')?.invalid">
+                    First Name is required (min 2 characters)
+                </small>
+            </div>
+
+            <!-- Middle Name -->
+            <div class="p-field p-col-12 p-md-4">
+                <input pInputText type="text" placeholder="Middle Name" formControlName="middleName" />
+            </div>
+
+            <!-- Last Name -->
+            <div class="p-field p-col-12 p-md-4">
+                <input pInputText type="text" placeholder="Last Name" formControlName="lastName" />
+
+                <small class="p-error" *ngIf="studentForm.get('lastName')?.touched &&
+                 studentForm.get('lastName')?.invalid">
+                    Last Name is required (min 2 characters)
+                </small>
+            </div>
+
+            <!-- Date of Birth -->
+            <div class="p-field p-col-12 p-md-6">
+                <p-calendar formControlName="dob" placeholder="Date of Birth" [showIcon]="true" dateFormat="dd/mm/yy">
+                </p-calendar>
+
+                <small class="p-error" *ngIf="studentForm.get('dob')?.touched &&
+                 studentForm.get('dob')?.invalid">
+                    Date of Birth is required
+                </small>
+            </div>
+
+            <!-- Student ID -->
+            <div class="p-field p-col-12 p-md-6">
+                <input pInputText type="text" placeholder="Student ID" formControlName="studentId" />
+
+                <small class="p-error" *ngIf="studentForm.get('studentId')?.touched &&
+                 studentForm.get('studentId')?.invalid">
+                    Student ID is required (5–10 uppercase letters/numbers)
+                </small>
+            </div>
+
+            <!-- Email -->
+            <div class="p-field p-col-12 p-md-6">
+                <input pInputText type="email" placeholder="Email" formControlName="email" />
+
+                <small class="p-error" *ngIf="studentForm.get('email')?.touched &&
+                 studentForm.get('email')?.invalid">
+                    Enter a valid email address
+                </small>
+            </div>
+
+            <!-- Course -->
+            <div class="p-field p-col-12 p-md-6">
+                <p-dropdown formControlName="course" [options]="courses" optionLabel="label" optionValue="value"
+                    placeholder="Select Course">
+                </p-dropdown>
+
+                <small class="p-error" *ngIf="studentForm.get('course')?.touched &&
+                 studentForm.get('course')?.invalid">
+                    Please select a course
+                </small>
+            </div>
+
+        </div>
+
+        <button pButton type="submit" label="Submit" class="p-mt-3" [disabled]="studentForm.invalid">
+        </button>
+
+    </form>
+
+</p-card>
