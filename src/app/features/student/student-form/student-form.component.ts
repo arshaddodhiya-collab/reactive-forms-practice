@@ -12,15 +12,8 @@ export class StudentFormComponent {
   today = new Date();
 
   // 🔥 Parent state
-  submittedStudent: Student = {
-    firstName: '',
-    middleName: '', // optional
-    lastName: '',
-    dob: new Date(),
-    studentId: '',
-    email: '',
-    course: '',
-  };
+  students: Student[] = [];
+  editingIndex = -1;
 
   isEditMode = false;
 
@@ -48,26 +41,32 @@ export class StudentFormComponent {
       return;
     }
 
-    this.submittedStudent = this.studentForm.getRawValue();
-    this.isEditMode = false;
+    const formValue = this.studentForm.getRawValue();
+
+    if (this.isEditMode && this.editingIndex > -1) {
+      this.students[this.editingIndex] = formValue;
+      this.isEditMode = false;
+      this.editingIndex = -1;
+    } else {
+      this.students.push(formValue);
+    }
+
+    this.resetForm();
   }
 
-  editStudent(student: Student): void {
+  editStudent(student: Student, index: number): void {
     this.isEditMode = true;
+    this.editingIndex = index;
     this.studentForm.patchValue(student);
   }
 
   reset(): void {
-    this.studentForm.reset();
-    this.submittedStudent = {
-      firstName: '',
-      middleName: '', // optional
-      lastName: '',
-      dob: new Date(),
-      studentId: '',
-      email: '',
-      course: '',
-    };
+    this.resetForm();
     this.isEditMode = false;
+  }
+
+  private resetForm(): void {
+    this.studentForm.reset();
+    this.editingIndex = -1;
   }
 }

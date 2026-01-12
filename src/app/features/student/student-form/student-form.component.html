@@ -97,9 +97,16 @@
   </form>
 </p-card>
 
-@if (submittedStudent && !isEditMode) {
-  <app-student-details
-    [student]="submittedStudent"
-    (edit)="editStudent(submittedStudent)">
-  </app-student-details>
+@if (students.length > 0) {
+  <div class="p-mt-4">
+    <h3>Registered Students</h3>
+    @for (student of students; track student; let i = $index) {
+      <div class="p-mb-3">
+        <app-student-details
+          [student]="student"
+          (edit)="editStudent(student, i)">
+        </app-student-details>
+      </div>
+    }
+  </div>
 }
