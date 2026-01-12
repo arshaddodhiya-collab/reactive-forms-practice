@@ -1,14 +1,54 @@
-<p-card header="Student Details">
+<p-card header="Student Details" class="p-mt-4">
 
-    <p><b>Name:</b>
+  <div class="p-fluid p-grid">
+
+    <div class="p-col-12 p-md-6">
+      <p>
+        <b>Name:</b><br />
         {{ student.firstName }}
         {{ student.middleName }}
         {{ student.lastName }}
-    </p>
+      </p>
+    </div>
 
-    <p><b>DOB:</b> {{ student.dob | date }}</p>
-    <p><b>Student ID:</b> {{ student.studentId }}</p>
-    <p><b>Email:</b> {{ student.email }}</p>
-    <p><b>Course:</b> {{ student.course }}</p>
+    <div class="p-col-12 p-md-6">
+      <p>
+        <b>Date of Birth:</b><br />
+        {{ student.dob | date:'dd/MM/yyyy' }}
+      </p>
+    </div>
+
+    <div class="p-col-12 p-md-6">
+      <p>
+        <b>Student ID:</b><br />
+        {{ student.studentId }}
+      </p>
+    </div>
+
+    <div class="p-col-12 p-md-6">
+      <p>
+        <b>Email:</b><br />
+        {{ student.email }}
+      </p>
+    </div>
+
+    <div class="p-col-12 p-md-6">
+      <p>
+        <b>Course:</b><br />
+        {{ student.course }}
+      </p>
+    </div>
+
+  </div>
+
+  <div class="p-mt-3 text-right">
+    <button
+      pButton
+      icon="pi pi-pencil"
+      label="Edit"
+      class="p-button-secondary"
+      (click)="onEdit()">
+    </button>
+  </div>
 
 </p-card>

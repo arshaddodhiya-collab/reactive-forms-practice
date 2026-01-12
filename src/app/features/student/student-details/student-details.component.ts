@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Student } from '../../../core/models/student.model';
 
 @Component({
@@ -8,4 +8,11 @@ import { Student } from '../../../core/models/student.model';
 export class StudentDetailsComponent {
   @Input({ required: true })
   student!: Student;
+
+  @Output()
+  edit = new EventEmitter<void>();
+
+  onEdit(): void {
+    this.edit.emit();
+  }
 }

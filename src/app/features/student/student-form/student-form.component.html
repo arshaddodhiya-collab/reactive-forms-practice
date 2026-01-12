@@ -1,96 +1,105 @@
 <p-card header="Student Registration Form">
 
-    <form [formGroup]="studentForm" (ngSubmit)="submit()">
+  <form [formGroup]="studentForm" (ngSubmit)="submit()">
 
-        <div class="p-fluid p-formgrid p-grid">
+    <div class="p-fluid p-formgrid p-grid">
 
-            <!-- First Name -->
-            <div class="p-field p-col-12 p-md-4">
-                <input pInputText placeholder="First Name" formControlName="firstName" />
+      <!-- First Name -->
+      <div class="p-field p-col-12 p-md-4">
+        <input pInputText placeholder="First Name" formControlName="firstName" />
+        @if (studentForm.get('firstName')?.touched &&
+             studentForm.get('firstName')?.invalid) {
+          <small class="p-error">First Name is required (min 2 characters)</small>
+        }
+      </div>
 
-                @if (studentForm.get('firstName')?.touched &&
-                studentForm.get('firstName')?.invalid) {
-                <small class="p-error">
-                    First Name is required (min 2 characters)
-                </small>
-                }
-            </div>
+      <!-- Middle Name -->
+      <div class="p-field p-col-12 p-md-4">
+        <input pInputText placeholder="Middle Name" formControlName="middleName" />
+      </div>
 
-            <!-- Middle Name -->
-            <div class="p-field p-col-12 p-md-4">
-                <input pInputText placeholder="Middle Name" formControlName="middleName" />
-            </div>
+      <!-- Last Name -->
+      <div class="p-field p-col-12 p-md-4">
+        <input pInputText placeholder="Last Name" formControlName="lastName" />
+        @if (studentForm.get('lastName')?.touched &&
+             studentForm.get('lastName')?.invalid) {
+          <small class="p-error">Last Name is required (min 2 characters)</small>
+        }
+      </div>
 
-            <!-- Last Name -->
-            <div class="p-field p-col-12 p-md-4">
-                <input pInputText placeholder="Last Name" formControlName="lastName" />
+      <!-- DOB -->
+      <div class="p-field p-col-12 p-md-6">
+        <p-calendar
+          [defaultDate]="today"
+          formControlName="dob"
+          [showIcon]="true">
+        </p-calendar>
+        @if (studentForm.get('dob')?.touched &&
+             studentForm.get('dob')?.invalid) {
+          <small class="p-error">Date of Birth is required</small>
+        }
+      </div>
 
-                @if (studentForm.get('lastName')?.touched &&
-                studentForm.get('lastName')?.invalid) {
-                <small class="p-error">
-                    Last Name is required (min 2 characters)
-                </small>
-                }
-            </div>
+      <!-- Student ID -->
+      <div class="p-field p-col-12 p-md-6">
+        <input pInputText placeholder="Student ID" formControlName="studentId" />
+        @if (studentForm.get('studentId')?.touched &&
+             studentForm.get('studentId')?.invalid) {
+          <small class="p-error">Student ID is required</small>
+        }
+      </div>
 
-            <!-- DOB -->
-            <div class="p-field p-col-12 p-md-6">
-                <p-calendar [defaultDate]="new Date()" formControlName="dob" [showIcon]="true"></p-calendar>
-                @if (studentForm.get('dob')?.touched &&
-                studentForm.get('dob')?.invalid) {
-                <small class="p-error">
-                    Date of Birth is required
-                </small>
-                }
-            </div>
+      <!-- Email -->
+      <div class="p-field p-col-12 p-md-6">
+        <input pInputText type="email" placeholder="Email" formControlName="email" />
+        @if (studentForm.get('email')?.touched &&
+             studentForm.get('email')?.invalid) {
+          <small class="p-error">Enter a valid email</small>
+        }
+      </div>
 
-            <!-- Student ID -->
-            <div class="p-field p-col-12 p-md-6">
-                <input pInputText placeholder="Student ID" formControlName="studentId" />
+      <!-- Course -->
+      <div class="p-field p-col-12 p-md-6">
+        <p-dropdown
+          formControlName="course"
+          [options]="courses"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Select Course">
+        </p-dropdown>
+        @if (studentForm.get('course')?.touched &&
+             studentForm.get('course')?.invalid) {
+          <small class="p-error">Please select a course</small>
+        }
+      </div>
 
-                @if (studentForm.get('studentId')?.touched &&
-                studentForm.get('studentId')?.invalid) {
-                <small class="p-error">
-                    Student ID is required
-                </small>
-                }
-            </div>
+    </div>
 
-            <!-- Email -->
-            <div class="p-field p-col-12 p-md-6">
-                <input pInputText type="email" placeholder="Email" formControlName="email" />
+    <div class="p-mt-3">
+      <button
+        pButton
+        type="submit"
+        [label]="isEditMode ? 'Update' : 'Submit'"
+        [disabled]="studentForm.invalid">
+      </button>
 
-                @if (studentForm.get('email')?.touched &&
-                studentForm.get('email')?.invalid) {
-                <small class="p-error">
-                    Enter a valid email
-                </small>
-                }
-            </div>
+      @if (isEditMode) {
+        <button
+          pButton
+          type="button"
+          label="Cancel"
+          class="p-button-secondary p-ml-2"
+          (click)="reset()">
+        </button>
+      }
+    </div>
 
-            <!-- Course -->
-            <div class="p-field p-col-12 p-md-6">
-                <p-dropdown formControlName="course" [options]="courses" optionLabel="label" optionValue="value"
-                    placeholder="Select Course">
-                </p-dropdown>
-
-                @if (studentForm.get('course')?.touched &&
-                studentForm.get('course')?.invalid) {
-                <small class="p-error">
-                    Please select a course
-                </small>
-                }
-            </div>
-
-        </div>
-
-        <button pButton type="submit" label="Submit" [disabled]="studentForm.invalid"></button>
-
-    </form>
+  </form>
 </p-card>
 
-<!-- 🔥 Child rendered only after submit -->
-@if (submittedStudent) {
-<app-student-details [student]="submittedStudent">
-</app-student-details>
+@if (submittedStudent && !isEditMode) {
+  <app-student-details
+    [student]="submittedStudent"
+    (edit)="editStudent(submittedStudent)">
+  </app-student-details>
 }

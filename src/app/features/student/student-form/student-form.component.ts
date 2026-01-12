@@ -9,8 +9,20 @@ import { Student } from '../../../core/models/student.model';
 export class StudentFormComponent {
   studentForm!: FormGroup;
 
+  today = new Date();
+
   // 🔥 Parent state
-  submittedStudent: Student | null = null;
+  submittedStudent: Student = {
+    firstName: '',
+    middleName: '', // optional
+    lastName: '',
+    dob: new Date(),
+    studentId: '',
+    email: '',
+    course: '',
+  };
+
+  isEditMode = false;
 
   courses = [
     { label: 'Angular', value: 'Angular' },
@@ -37,5 +49,25 @@ export class StudentFormComponent {
     }
 
     this.submittedStudent = this.studentForm.getRawValue();
+    this.isEditMode = false;
+  }
+
+  editStudent(student: Student): void {
+    this.isEditMode = true;
+    this.studentForm.patchValue(student);
+  }
+
+  reset(): void {
+    this.studentForm.reset();
+    this.submittedStudent = {
+      firstName: '',
+      middleName: '', // optional
+      lastName: '',
+      dob: new Date(),
+      studentId: '',
+      email: '',
+      course: '',
+    };
+    this.isEditMode = false;
   }
 }
