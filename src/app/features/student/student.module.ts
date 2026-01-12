@@ -16,7 +16,8 @@ import { DropdownModule } from 'primeng/dropdown';
 @NgModule({
   declarations: [
     StudentFormComponent,
-    StudentDetailsComponent
+    StudentDetailsComponent,
+    // StudentPageComponent
   ],
   imports: [
     CommonModule,

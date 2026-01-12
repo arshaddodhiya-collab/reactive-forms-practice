@@ -1,70 +1,33 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { StudentService } from '../../../core/services/student.service';
-
 import { Student } from '../../../core/models/student.model';
-
 
 @Component({
   selector: 'app-student-form',
   templateUrl: './student-form.component.html'
 })
-export class StudentFormComponent implements OnInit {
+export class StudentFormComponent {
 
-  studentForm!: FormGroup;   // ✅ exists
+  studentForm!: FormGroup;
+
+  // 🔥 THIS WAS MISSING OR NOT SAVED
+  submittedStudent: Student | null = null;
 
   courses = [
-    { label: 'Angular', value: 'angular' },
-    { label: 'React', value: 'react' },
-    { label: 'Java', value: 'java' }
+    { label: 'Angular', value: 'Angular' },
+    { label: 'React', value: 'React' },
+    { label: 'Java', value: 'Java' }
   ];
 
-  constructor(
-    private fb: FormBuilder,
-    private studentService: StudentService,
-    private router: Router
-  ) { }
-
-  ngOnInit(): void {
+  constructor(private fb: FormBuilder) {
     this.studentForm = this.fb.group({
-      firstName: [
-        '',
-        [Validators.required, Validators.minLength(2)]
-      ],
-
+      firstName: ['', [Validators.required, Validators.minLength(2)]],
       middleName: [''],
-
-      lastName: [
-        '',
-        [Validators.required, Validators.minLength(2)]
-      ],
-
-      dob: [
-        null,
-        Validators.required
-      ],
-
-      studentId: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern(/^[A-Z0-9]{5,10}$/)
-        ]
-      ],
-
-      email: [
-        '',
-        [
-          Validators.required,
-          Validators.email
-        ]
-      ],
-
-      course: [
-        null,
-        Validators.required
-      ]
+      lastName: ['', [Validators.required, Validators.minLength(2)]],
+      dob: [null, Validators.required],
+      studentId: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      course: [null, Validators.required]
     });
   }
 
@@ -74,10 +37,7 @@ export class StudentFormComponent implements OnInit {
       return;
     }
 
-    const student: Student = this.studentForm.value;
-
-    this.studentService.setStudent(student);
-    this.router.navigate(['/student/details']);
+    // ✅ assign value so template can see it
+    this.submittedStudent = this.studentForm.value;
   }
-
 }

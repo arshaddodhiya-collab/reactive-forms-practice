@@ -1,26 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { StudentService } from '../../../core/services/student.service';
+import { Component, Input } from '@angular/core';
 import { Student } from '../../../core/models/student.model';
 
 @Component({
   selector: 'app-student-details',
   templateUrl: './student-details.component.html'
 })
-export class StudentDetailsComponent implements OnInit {
+export class StudentDetailsComponent {
 
-  student: Student = {
-    firstName: "",
-    middleName: "",  // optional
-    lastName: "",
-    dob: new Date(),
-    studentId: "",
-    email: "",
-    course: ""
-  };
+  @Input() student!: Student;
 
-  constructor(private studentService: StudentService) { }
-
-  ngOnInit() {
-    this.student = this.studentService.getStudent();
-  }
 }

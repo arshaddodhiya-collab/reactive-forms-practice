@@ -6,58 +6,67 @@
 
             <!-- First Name -->
             <div class="p-field p-col-12 p-md-4">
-                <input pInputText type="text" placeholder="First Name" formControlName="firstName" />
+                <input pInputText placeholder="First Name" formControlName="firstName" />
 
-                <small class="p-error" *ngIf="studentForm.get('firstName')?.touched &&
-                 s  tudentForm.get('firstName')?.invalid">
+                @if (studentForm.get('firstName')?.touched &&
+                studentForm.get('firstName')?.invalid) {
+                <small class="p-error">
                     First Name is required (min 2 characters)
                 </small>
+                }
             </div>
 
             <!-- Middle Name -->
             <div class="p-field p-col-12 p-md-4">
-                <input pInputText type="text" placeholder="Middle Name" formControlName="middleName" />
+                <input pInputText placeholder="Middle Name" formControlName="middleName" />
             </div>
 
             <!-- Last Name -->
             <div class="p-field p-col-12 p-md-4">
-                <input pInputText type="text" placeholder="Last Name" formControlName="lastName" />
+                <input pInputText placeholder="Last Name" formControlName="lastName" />
 
-                <small class="p-error" *ngIf="studentForm.get('lastName')?.touched &&
-                 studentForm.get('lastName')?.invalid">
+                @if (studentForm.get('lastName')?.touched &&
+                studentForm.get('lastName')?.invalid) {
+                <small class="p-error">
                     Last Name is required (min 2 characters)
                 </small>
+                }
             </div>
 
-            <!-- Date of Birth -->
+            <!-- DOB -->
             <div class="p-field p-col-12 p-md-6">
-                <p-calendar formControlName="dob" placeholder="Date of Birth" [showIcon]="true" dateFormat="dd/mm/yy">
-                </p-calendar>
+                <p-calendar formControlName="dob" [showIcon]="true"></p-calendar>
 
-                <small class="p-error" *ngIf="studentForm.get('dob')?.touched &&
-                 studentForm.get('dob')?.invalid">
+                @if (studentForm.get('dob')?.touched &&
+                studentForm.get('dob')?.invalid) {
+                <small class="p-error">
                     Date of Birth is required
                 </small>
+                }
             </div>
 
             <!-- Student ID -->
             <div class="p-field p-col-12 p-md-6">
-                <input pInputText type="text" placeholder="Student ID" formControlName="studentId" />
+                <input pInputText placeholder="Student ID" formControlName="studentId" />
 
-                <small class="p-error" *ngIf="studentForm.get('studentId')?.touched &&
-                 studentForm.get('studentId')?.invalid">
-                    Student ID is required (5–10 uppercase letters/numbers)
+                @if (studentForm.get('studentId')?.touched &&
+                studentForm.get('studentId')?.invalid) {
+                <small class="p-error">
+                    Student ID is required
                 </small>
+                }
             </div>
 
             <!-- Email -->
             <div class="p-field p-col-12 p-md-6">
                 <input pInputText type="email" placeholder="Email" formControlName="email" />
 
-                <small class="p-error" *ngIf="studentForm.get('email')?.touched &&
-                 studentForm.get('email')?.invalid">
-                    Enter a valid email address
+                @if (studentForm.get('email')?.touched &&
+                studentForm.get('email')?.invalid) {
+                <small class="p-error">
+                    Enter a valid email
                 </small>
+                }
             </div>
 
             <!-- Course -->
@@ -66,17 +75,35 @@
                     placeholder="Select Course">
                 </p-dropdown>
 
-                <small class="p-error" *ngIf="studentForm.get('course')?.touched &&
-                 studentForm.get('course')?.invalid">
+                @if (studentForm.get('course')?.touched &&
+                studentForm.get('course')?.invalid) {
+                <small class="p-error">
                     Please select a course
                 </small>
+                }
             </div>
 
         </div>
 
-        <button pButton type="submit" label="Submit" class="p-mt-3" [disabled]="studentForm.invalid">
-        </button>
+        <button pButton type="submit" label="Submit" [disabled]="studentForm.invalid"></button>
 
     </form>
+</p-card>
+
+<!-- 🔥 DETAILS SECTION (same page, after submit) -->
+@if (submittedStudent) {
+<p-card header="Student Details" class="p-mt-4">
+
+    <p><b>Name:</b>
+        {{ submittedStudent.firstName }}
+        {{ submittedStudent.middleName }}
+        {{ submittedStudent.lastName }}
+    </p>
+
+    <p><b>DOB:</b> {{ submittedStudent.dob | date }}</p>
+    <p><b>Student ID:</b> {{ submittedStudent.studentId }}</p>
+    <p><b>Email:</b> {{ submittedStudent.email }}</p>
+    <p><b>Course:</b> {{ submittedStudent.course }}</p>
 
 </p-card>
+}
