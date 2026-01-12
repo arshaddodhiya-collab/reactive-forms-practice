@@ -4,19 +4,18 @@ import { Student } from '../../../core/models/student.model';
 
 @Component({
   selector: 'app-student-form',
-  templateUrl: './student-form.component.html'
+  templateUrl: './student-form.component.html',
 })
 export class StudentFormComponent {
-
   studentForm!: FormGroup;
 
-  // 🔥 THIS WAS MISSING OR NOT SAVED
+  // 🔥 Parent state
   submittedStudent: Student | null = null;
 
   courses = [
     { label: 'Angular', value: 'Angular' },
     { label: 'React', value: 'React' },
-    { label: 'Java', value: 'Java' }
+    { label: 'Java', value: 'Java' },
   ];
 
   constructor(private fb: FormBuilder) {
@@ -27,7 +26,7 @@ export class StudentFormComponent {
       dob: [null, Validators.required],
       studentId: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      course: [null, Validators.required]
+      course: [null, Validators.required],
     });
   }
 
@@ -37,7 +36,6 @@ export class StudentFormComponent {
       return;
     }
 
-    // ✅ assign value so template can see it
-    this.submittedStudent = this.studentForm.value;
+    this.submittedStudent = this.studentForm.getRawValue();
   }
 }

@@ -89,20 +89,8 @@
     </form>
 </p-card>
 
-<!-- 🔥 DETAILS SECTION (same page, after submit) -->
+<!-- 🔥 Child rendered only after submit -->
 @if (submittedStudent) {
-<p-card header="Student Details" class="p-mt-4">
-
-    <p><b>Name:</b>
-        {{ submittedStudent.firstName }}
-        {{ submittedStudent.middleName }}
-        {{ submittedStudent.lastName }}
-    </p>
-
-    <p><b>DOB:</b> {{ submittedStudent.dob | date }}</p>
-    <p><b>Student ID:</b> {{ submittedStudent.studentId }}</p>
-    <p><b>Email:</b> {{ submittedStudent.email }}</p>
-    <p><b>Course:</b> {{ submittedStudent.course }}</p>
-
-</p-card>
+<app-student-details [student]="submittedStudent">
+</app-student-details>
 }

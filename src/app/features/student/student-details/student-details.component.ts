@@ -3,10 +3,9 @@ import { Student } from '../../../core/models/student.model';
 
 @Component({
   selector: 'app-student-details',
-  templateUrl: './student-details.component.html'
+  templateUrl: './student-details.component.html',
 })
 export class StudentDetailsComponent {
-
-  @Input() student!: Student;
-
+  @Input({ required: true })
+  student!: Student;
 }
