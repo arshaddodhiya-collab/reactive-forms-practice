@@ -1,20 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { Student } from '../../../core/models/student.model';
+import { StudentStateService } from '../../../core/services/student-state.service';
 
 @Component({
   selector: 'app-student-form',
   templateUrl: './student-form.component.html',
 })
-export class StudentFormComponent {
+export class StudentFormComponent implements OnInit {
   studentForm!: FormGroup;
-
   today = new Date();
 
-  // 🔥 Parent state
+  // Parent state
   students: Student[] = [];
   editingIndex = -1;
-
   isEditMode = false;
 
   courses = [
@@ -23,7 +23,10 @@ export class StudentFormComponent {
     { label: 'Java', value: 'Java' },
   ];
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private studentState: StudentStateService
+  ) {
     this.studentForm = this.fb.group({
       firstName: ['', [Validators.required, Validators.minLength(2)]],
       middleName: [''],
@@ -35,38 +38,48 @@ export class StudentFormComponent {
     });
   }
 
+  ngOnInit(): void {
+    // 🔥 REAL-TIME FORM → DETAILS
+    this.studentForm.valueChanges
+      .pipe(distinctUntilChanged())
+      .subscribe((value) => {
+        this.studentState.updateStudent(value as Student);
+      });
+  }
+
   submit(): void {
     if (this.studentForm.invalid) {
       this.studentForm.markAllAsTouched();
       return;
     }
 
-    const formValue = this.studentForm.getRawValue();
+    const formValue = this.studentForm.getRawValue() as Student;
 
     if (this.isEditMode && this.editingIndex > -1) {
       this.students[this.editingIndex] = formValue;
-      this.isEditMode = false;
-      this.editingIndex = -1;
     } else {
       this.students.push(formValue);
     }
 
-    this.resetForm();
+    this.reset();
   }
 
   editStudent(student: Student, index: number): void {
     this.isEditMode = true;
     this.editingIndex = index;
+
+    // Patch form
     this.studentForm.patchValue(student);
+
+    // 🔥 sync details immediately on edit
+    this.studentState.updateStudent(student);
   }
 
   reset(): void {
-    this.resetForm();
-    this.isEditMode = false;
-  }
-
-  private resetForm(): void {
     this.studentForm.reset();
+    this.studentState.reset();
+
+    this.isEditMode = false;
     this.editingIndex = -1;
   }
 }
