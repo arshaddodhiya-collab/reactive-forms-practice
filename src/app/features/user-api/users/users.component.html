@@ -1,0 +1,17 @@
+<p-card header="Users from API">
+  @if (loading) {
+  <p>Loading users...</p>
+  } @if (!loading) {
+  <div class="p-grid">
+    @for (user of users; track user.id) {
+    <div class="p-col-12 p-md-6">
+      <p-card class="p-mb-3">
+        <p><b>Name:</b> {{ user.name }}</p>
+        <p><b>Username:</b> {{ user.username }}</p>
+        <p><b>Email:</b> {{ user.email }}</p>
+      </p-card>
+    </div>
+    }
+  </div>
+  }
+</p-card>
