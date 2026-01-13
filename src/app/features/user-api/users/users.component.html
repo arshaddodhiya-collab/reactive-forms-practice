@@ -1,17 +1,73 @@
-<p-card header="Users from API">
-  @if (loading) {
-  <p>Loading users...</p>
-  } @if (!loading) {
-  <div class="p-grid">
-    @for (user of users; track user.id) {
-    <div class="p-col-12 p-md-6">
-      <p-card class="p-mb-3">
-        <p><b>Name:</b> {{ user.name }}</p>
-        <p><b>Username:</b> {{ user.username }}</p>
-        <p><b>Email:</b> {{ user.email }}</p>
-      </p-card>
+<p-card header="User Form">
+  <form [formGroup]="userForm" (ngSubmit)="submit()">
+    <input pInputText placeholder="Name" formControlName="name" />
+    <input pInputText placeholder="Username" formControlName="username" />
+    <input pInputText placeholder="Email" formControlName="email" />
+    <input pInputText placeholder="Phone" formControlName="phone" />
+    <input pInputText placeholder="Website" formControlName="website" />
+
+    <h4>Address</h4>
+    <div formGroupName="address">
+      <input pInputText placeholder="Street" formControlName="street" />
+      <input pInputText placeholder="Suite" formControlName="suite" />
+      <input pInputText placeholder="City" formControlName="city" />
+      <input pInputText placeholder="Zipcode" formControlName="zipcode" />
+
+      <div formGroupName="geo">
+        <input pInputText placeholder="Latitude" formControlName="lat" />
+        <input pInputText placeholder="Longitude" formControlName="lng" />
+      </div>
     </div>
-    }
-  </div>
-  }
+
+    <h4>Company</h4>
+    <div formGroupName="company">
+      <input pInputText placeholder="Company Name" formControlName="name" />
+      <input
+        pInputText
+        placeholder="Catch Phrase"
+        formControlName="catchPhrase"
+      />
+      <input pInputText placeholder="Business" formControlName="bs" />
+    </div>
+
+    <button
+      pButton
+      type="submit"
+      [label]="isEditMode ? 'Update' : 'Add'"
+    ></button>
+    <button
+      pButton
+      type="button"
+      class="p-button-secondary"
+      (click)="resetForm()"
+    >
+      Reset
+    </button>
+  </form>
+</p-card>
+
+<p-card header="Users List" class="p-mt-4">
+  @if (users$ | async; as users) { @for (user of users; track user.id) {
+  <p-card class="p-mb-2">
+    <b>{{ user.name }}</b> ({{ user.email }})<br />
+    {{ user.address.city }} | {{ user.company.name }}
+
+    <p-button
+      icon="pi pi-pencil"
+      label="Edit"
+      (onClick)="editUser(user)"
+      styleClass="p-button-sm"
+    >
+    </p-button>
+
+    <p-button
+      icon="pi pi-trash"
+      label="Delete"
+      severity="danger"
+      (onClick)="deleteUser(user.id)"
+      styleClass="p-button-sm"
+    >
+    </p-button>
+  </p-card>
+  } }
 </p-card>
