@@ -31,7 +31,7 @@ export class StudentFormComponent implements OnInit {
       firstName: ['', [Validators.required, Validators.minLength(2)]],
       middleName: [''],
       lastName: ['', [Validators.required, Validators.minLength(2)]],
-      dob: [null, Validators.required],
+      dob: [new Date(), Validators.required],
       studentId: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       course: [null, Validators.required],
@@ -76,8 +76,16 @@ export class StudentFormComponent implements OnInit {
   }
 
   reset(): void {
-    this.studentForm.reset();
-    this.studentState.reset();
+    this.studentForm.reset({
+      firstName: '',
+      middleName: '',
+      lastName: '',
+      dob: new Date(),
+      studentId: '',
+      email: '',
+      course: '',
+    });
+    // this.studentState.reset();
 
     this.isEditMode = false;
     this.editingIndex = -1;
