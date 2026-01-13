@@ -5,7 +5,6 @@ import { Student } from '../models/student.model';
 
 @Injectable({ providedIn: 'root' })
 export class StudentService {
-
   private studentData!: Student;
 
   setStudent(data: Student): void {
@@ -16,4 +15,3 @@ export class StudentService {
     return this.studentData;
   }
 }
-
